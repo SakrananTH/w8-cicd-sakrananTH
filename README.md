@@ -1,45 +1,7 @@
-﻿# w8-cicd-sakrananTH
+# w8-cicd-sakrananTH
+
 ## Lab Reflection
 
 ในการทดลองสัปดาห์นี้ ได้เรียนรู้และลงมือสร้าง CI/CD Pipeline พื้นฐานด้วย GitHub Actions ทำให้เห็นภาพชัดเจนว่า pipeline ไม่ใช่แค่เครื่องมือ deploy อัตโนมัติ แต่เป็นระบบ Quality Gate ที่คอยกำกับให้โค้ดผ่านการทดสอบอย่างสม่ำเสมอ
 
 กระบวนการที่สะท้อนให้เห็นประโยชน์ชัดเจนที่สุดคือวงจร Green → Red → Green โดยเฉพาะการจงใจทำให้เทสต์ล้มเหลว (Red Run) ซึ่งแสดงให้เห็นว่าหากมีข้อผิดพลาดเกิดขึ้น Pipeline จะหยุดการทำงานทันทีเพื่อป้องกันไม่ให้โค้ดที่ไม่สมบูรณ์ถูก merge เข้า branch หลัก การอ่าน Log ทำให้ระบุตำแหน่งของ assertion ที่ผิดพลาดได้โดยตรง ส่วนการทำ Pull Request ร่วมกับ Status Check ช่วยสร้างความมั่นใจก่อนการรวมโค้ด สำหรับลำดับถัดไป สนใจที่จะเพิ่มขั้นตอน Continuous Deployment (CD) เพื่อนำ artifact ที่ทดสอบผ่านแล้วขึ้นสู่ Staging หรือ Cloud PaaS โดยอัตโนมัติ
-```[cite: 2]
-3. กดปุ่มสีเขียว **Commit changes...** ด้านขวาบน แล้วกด **Commit changes** อีกครั้ง
-
-*(หรือ **วิธีที่ 2:** เปิดแก้ใน VS Code แล้วพิมพ์ `git add README.md`, `git commit -m "Add lab reflection"`, `git push origin main`)[cite: 2]*
-
----
-
-### สรุปข้อมูลทั้งหมด พร้อมส่งงานอาจารย์
-
-**1. รายการลิงก์ (URLs)**[cite: 2]
-* **GitHub Repository URL:**[cite: 2]
-  `[https://github.com/SakrananTH/w8-cicd-sakrananTH](https://github.com/SakrananTH/w8-cicd-sakrananTH)`
-* **First Green Run URL:** (คลิกแท็บ Actions → รายการ `first commit` แล้วคัดลอก URL)[cite: 2]
-  `[https://github.com/SakrananTH/w8-cicd-sakrananTH/actions/runs/](https://github.com/SakrananTH/w8-cicd-sakrananTH/actions/runs/)...`
-* **Intentional Red Run URL:** (คลิกแท็บ Actions → รายการ `Experiment: intentionally break...`)[cite: 2]
-  `[https://github.com/SakrananTH/w8-cicd-sakrananTH/actions/runs/](https://github.com/SakrananTH/w8-cicd-sakrananTH/actions/runs/)...`
-* **Recovery Green Run URL:** (คลิกแท็บ Actions → รายการบนสุด `Merge pull request #1...`)[cite: 2]
-  `[https://github.com/SakrananTH/w8-cicd-sakrananTH/actions/runs/](https://github.com/SakrananTH/w8-cicd-sakrananTH/actions/runs/)...`
-* **Pull Request URL:**[cite: 2]
-  `[https://github.com/SakrananTH/w8-cicd-sakrananTH/pull/1](https://github.com/SakrananTH/w8-cicd-sakrananTH/pull/1)`
-
-**2. ไฟล์ภาพ Screenshot (1 รูป)**[cite: 2]
-* ภาพหน้าจอ failed step สีแดง ที่เห็น error log ชัดเจนจากรอบ `Experiment: intentionally break greeting test`[cite: 2]
-
-**3. คำตอบ Exit Ticket (นำข้อความนี้ไปกรอกในระบบส่งงาน)**[cite: 2]
-> 1. **ส่วนใดของงานนี้คือ Continuous Integration?**[cite: 2]  
-> **ตอบ:** การที่ workflow ใน `.github/workflows/ci.yml` ทำงานอัตโนมัติเมื่อมีการ `push` หรือ `pull_request` เข้าสู่ `main` โดยระบบจะ checkout โค้ด, ติดตั้ง dependencies (`npm ci`) และรัน automated tests (`npm test`) เพื่อตรวจสอบความถูกต้องทันที[cite: 2]  
->  
-> 2. **งานนี้มี Continuous Delivery หรือ Continuous Deployment แล้วหรือยัง? เพราะเหตุใด?**[cite: 2]  
-> **ตอบ:** ยังไม่มี เนื่องจากใน pipeline สิ้นสุดเพียงแค่ขั้นตอนการทดสอบ (Test) บน runner เท่านั้น ยังไม่มีขั้นตอนการสร้าง Artifact หรือคำสั่ง deploy เพื่อนำโค้ดขึ้นสู่ Staging หรือ Production แต่อย่างใด[cite: 1, 2]  
->  
-> 3. **Green pipeline ยืนยันอะไรได้บ้าง และยืนยันอะไรไม่ได้?**[cite: 2]  
-> **ตอบ:** ยืนยันได้ว่าโค้ดไม่มี syntax error และผ่านเงื่อนไขชุดทดสอบที่เขียนไว้ทั้งหมด แต่ไม่สามารถยืนยันได้ว่าแอปพลิเคชันจะไม่มีข้อผิดพลาดในกรณีที่ไม่มีเทสต์ครอบคลุม หรือรับประกันการทำงานร่วมกับ service ภายนอกในสภาพแวดล้อมจริง[cite: 2]  
->  
-> 4. **เหตุใดเราจึงต้องทดลองสร้าง red pipeline?**[cite: 2]  
-> **ตอบ:** เพื่อพิสูจน์ว่า Quality Gate สามารถตรวจจับข้อผิดพลาดและหยุด pipeline ได้จริงเมื่อโค้ดไม่ผ่านเกณฑ์ และเพื่อฝึกฝนการอ่าน failure log ในการแก้ไขปัญหา[cite: 2]  
->  
-> 5. **หาก test ผ่านแต่ application ใช้งานจริงไม่ได้ ควรเพิ่ม test หรือ pipeline stage ใด?**[cite: 2]  
-> **ตอบ:** ควรเพิ่ม Integration Tests, End-to-End (E2E) Tests และเพิ่มขั้นตอนการทำ Health Check / Smoke Test บน Staging Environment ก่อนปล่อยสู่ Production[cite: 1, 2]
